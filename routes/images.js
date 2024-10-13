@@ -47,7 +47,7 @@ router.post('/upload', upload.single('image'), async (req, res) => {
 // Get all images route
 router.get('/images', async (req, res) => {
     try {
-        const images = await Image.find();
+        const images = await Image.find(undefined, undefined, undefined);
         res.status(200).json(images);
     } catch (err) {
         res.status(500).json({message: err.message});
