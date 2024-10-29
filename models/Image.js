@@ -33,7 +33,9 @@ const ImageSchema = new mongoose.Schema({
     path: {type: String, required: true},
     mimetype: {type: String, required: true},
     createdAt: {type: Date, default: Date.now},
-    metadata: {type: Object}
+    metadata: {type: Object},
+    uploadedBy: {type: String, required: true},
+    belongsTo: {type: String, required: true},
 });
 
 

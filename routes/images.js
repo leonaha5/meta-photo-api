@@ -45,6 +45,11 @@ const upload = multer({storage});
 router.post('/', upload.array('images', 10), async (req, res) => {
     try {
         const uploadedImages = [];
+        const {uploadedBy, belongsTo} = req.body; // Extract new properties
+
+        if (!uploadedBy || !belongsTo) {
+            return res.status(400).json({message: "uploadedBy and belongsTo are required."});
+        }
 
         for (const file of req.files) {
             const imagePath = path.join(__dirname, '../', file.path);
@@ -57,7 +62,9 @@ router.post('/', upload.array('images', 10), async (req, res) => {
                 filename: file.filename,
                 path: file.path,
                 mimetype: file.mimetype,
-                metadata: result.tags
+                metadata: result.tags,
+                uploadedBy, // Add uploadedBy
+                belongsTo   // Add belongsTo
             });
 
             await image.save();

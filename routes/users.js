@@ -1,6 +1,5 @@
 const express = require('express');
 const User = require('../models/User');
-const Image = require("../models/Image"); // Import the Image model
 
 const router = express.Router();
 

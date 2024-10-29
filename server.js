@@ -26,6 +26,7 @@ app.use(express.json())
 
 app.use('/users', require('./routes/users'));
 app.use('/images', require('./routes/images'));
+app.use('/boards', require('./routes/boards'));
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

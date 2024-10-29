@@ -29,8 +29,6 @@ const mongoose = require('mongoose');
  */
 const BoardSchema = new mongoose.Schema({
     name: {type: String, required: true},
-    boardImageIDs: {type: Array, default: []},
-    userIDs: {type: Array, default: []},
     owner: {type: String},
 });
 
