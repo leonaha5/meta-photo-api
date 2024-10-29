@@ -27,7 +27,6 @@ const mongoose = require('mongoose');
  *           type: string
  *           description: The ID of the owner of the board
  */
-
 const BoardSchema = new mongoose.Schema({
     name: {type: String, required: true},
     boardImageIDs: {type: Array, default: []},
@@ -37,4 +36,3 @@ const BoardSchema = new mongoose.Schema({
 
 const Board = mongoose.model('Board', BoardSchema);
 module.exports = Board;
-

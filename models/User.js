@@ -18,7 +18,6 @@ const mongoose = require('mongoose');
  *             type: string
  *           description: Array of board IDs that the user has joined
  */
-
 const UserSchema = new mongoose.Schema({
     name: {type: String, required: true},
     joinedBoards: {type: Array, default: []},
@@ -26,4 +25,3 @@ const UserSchema = new mongoose.Schema({
 
 const User = mongoose.model('User', UserSchema);
 module.exports = User;
-

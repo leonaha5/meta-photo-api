@@ -70,6 +70,7 @@ router.post('/', upload.array('images', 10), async (req, res) => {
     }
 });
 
+
 /**
  * @swagger
  * /images:
@@ -85,6 +86,7 @@ router.get('/', async (req, res) => {
     }
 });
 
+
 /**
  * @swagger
  * /images/{id}:
@@ -94,6 +96,7 @@ router.get('/', async (req, res) => {
 router.get('/:id', getImage, async (req, res) => {
     res.status(200).json(res.image);
 })
+
 
 /**
  * @swagger
@@ -110,6 +113,7 @@ router.delete('/:id', getImage, async (req, res) => {
     }
 })
 
+
 /**
  * @swagger
  * /images:
@@ -119,6 +123,7 @@ router.delete('/:id', getImage, async (req, res) => {
 router.patch('/', async (req, res) => {
     await Image.deleteMany({})
 })
+
 
 /**
  * @swagger

@@ -1,9 +1,8 @@
 const express = require('express');
-const User = require('../models/User'); // Import the Image model
+const User = require('../models/User');
+const Image = require("../models/Image"); // Import the Image model
 
 const router = express.Router();
-
-// @swagger
 
 async function getUser(req, res, next) {
     let user
@@ -47,6 +46,7 @@ router.get('/', async (req, res) => {
     }
 })
 
+
 /**
  * @swagger
  * /users:
@@ -65,6 +65,7 @@ router.post('/', async (req, res) => {
         res.status(400).json({message: err.message})
     }
 })
+
 
 /**
  * @swagger
@@ -87,6 +88,7 @@ router.patch('/:id', getUser, async (req, res) => {
     }
 })
 
+
 /**
  * @swagger
  * /users/{id}:
@@ -95,8 +97,8 @@ router.patch('/:id', getUser, async (req, res) => {
  */
 router.delete('/:id', getUser, async (req, res) => {
     try {
-        await res.user.remove()
-        res.json({message: 'Deleted User'})
+        await User.deleteOne({_id: req.params.id});
+        res.json({message: 'User Deleted Successfully'})
     } catch (err) {
         res.status(500).json({message: err.message})
     }

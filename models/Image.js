@@ -28,7 +28,6 @@ const mongoose = require('mongoose')
  *           type: object
  *           description: Additional metadata about the image (e.g., EXIF data)
  */
-
 const ImageSchema = new mongoose.Schema({
     filename: {type: String, required: true},
     path: {type: String, required: true},
