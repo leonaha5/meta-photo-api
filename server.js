@@ -3,8 +3,11 @@ const mongoose = require('mongoose');
 const path = require('path');
 const imagesRouter = require('./routes/images');
 
+const {swaggerUi, swaggerSpec} = require('./swagger');
+
+const PORT = 4000;
+
 const app = express();
-const PORT = 5000;
 
 
 mongoose.connect('mongodb://localhost/metaphoto', {connectTimeoutMS: 30000})
@@ -17,15 +20,14 @@ if (!fs.existsSync(uploadsDir)) {
     fs.mkdirSync(uploadsDir);
 }
 
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use(express.json())
 
-app.use('/api', imagesRouter);
+app.use('/users', require('./routes/users'));
+app.use('/images', require('./routes/images'));
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
-    console.log(`API is available at: http://localhost:${PORT}/api`);
+    console.log(`API is available at: http://localhost:${PORT}`);
 });
-
-
-// server.timeout = 0;
