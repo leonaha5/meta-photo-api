@@ -1,7 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
-const imagesRouter = require('./routes/images');
 
 const {swaggerUi, swaggerSpec} = require('./swagger');
 
@@ -27,6 +26,8 @@ app.use(express.json())
 app.use('/users', require('./routes/users'));
 app.use('/images', require('./routes/images'));
 app.use('/boards', require('./routes/boards'));
+app.use('/login', require('./routes/login'));
+
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
