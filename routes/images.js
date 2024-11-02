@@ -103,6 +103,7 @@ router.get('/:id', getImage, async (req, res) => {
     res.status(200).json(res.image);
 })
 
+
 /**
  * @swagger
  * /images/user/{id}:
@@ -123,6 +124,53 @@ router.get('/user/:userId', async (req, res) => {
         res.status(500).json({message: err.message});
     }
 });
+
+
+/**
+ * @swagger
+ * /images/board/{id}:
+ *   get:
+ *     summary: Get an images by board id
+ */
+router.get('/board/:boardId', async (req, res) => {
+    try {
+        const boardId = req.params.boardId;
+        const images = await Image.find({belongsTo: boardId}, undefined, undefined);
+
+        if (images.length === 0) {
+            return res.status(404).json({message: 'No images found for this board.'});
+        }
+
+        res.status(200).json(images);
+    } catch (err) {
+        res.status(500).json({message: err.message});
+    }
+});
+
+
+/**
+ * @swagger
+ * /images/board/{id}:
+ *   get:
+ *     summary: Get an images by both board id and user id
+ */
+router.get('/board-user/:boardId/:userId', async (req, res) => {
+    try {
+        const boardId = req.params.boardId;
+        const userId = req.params.userId;
+
+        const images = await Image.find({belongsTo: boardId, uploadedBy: userId}, undefined, undefined);
+
+        if (images.length === 0) {
+            return res.status(404).json({message: 'No images found for this user in this board.'});
+        }
+
+        res.status(200).json(images);
+    } catch (err) {
+        res.status(500).json({message: err.message});
+    }
+});
+
 
 /**
  * @swagger

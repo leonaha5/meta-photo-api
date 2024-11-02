@@ -20,6 +20,17 @@ async function getUser(req, res, next) {
     next()
 }
 
+/**
+ * @swagger
+ * /users:
+ *   get:
+ *     summary: Get all users
+ */
+router.get('/', async (req, res) => {
+    const users = await User.find(undefined, undefined, undefined)
+    res.status(200).json(users);
+})
+
 
 /**
  * @swagger
