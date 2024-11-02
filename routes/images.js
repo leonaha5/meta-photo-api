@@ -4,7 +4,6 @@ const path = require('path');
 const fs = require('fs');
 const exifParser = require('exif-parser');
 const Image = require('../models/Image');
-const User = require("../models/User"); // Import the Image model
 
 const router = express.Router();
 
@@ -63,8 +62,8 @@ router.post('/', upload.array('images', 10), async (req, res) => {
                 path: file.path,
                 mimetype: file.mimetype,
                 metadata: result.tags,
-                uploadedBy, // Add uploadedBy
-                belongsTo   // Add belongsTo
+                uploadedBy: req.body.uploadedBy,
+                belongsTo: req.body.belongsTo
             });
 
             await image.save();
@@ -104,6 +103,26 @@ router.get('/:id', getImage, async (req, res) => {
     res.status(200).json(res.image);
 })
 
+/**
+ * @swagger
+ * /images/user/{id}:
+ *   get:
+ *     summary: Get an images by user id
+ */
+router.get('/user/:userId', async (req, res) => {
+    try {
+        const userId = req.params.userId;
+        const images = await Image.find({uploadedBy: userId}, undefined, undefined);
+
+        if (images.length === 0) {
+            return res.status(404).json({message: 'No images found for this user.'});
+        }
+
+        res.status(200).json(images);
+    } catch (err) {
+        res.status(500).json({message: err.message});
+    }
+});
 
 /**
  * @swagger
@@ -127,7 +146,7 @@ router.delete('/:id', getImage, async (req, res) => {
  *   patch:
  *     summary: Delete all images
  */
-router.patch('/', async (req, res) => {
+router.delete('/', async () => {
     await Image.deleteMany({})
 })
 

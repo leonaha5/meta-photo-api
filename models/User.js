@@ -19,8 +19,10 @@ const mongoose = require('mongoose');
  *           description: Array of board IDs that the user has joined
  */
 const UserSchema = new mongoose.Schema({
+    email: {type: String, required: true},
     name: {type: String, required: true},
-    joinedBoards: {type: Array, default: []},
+    joinedBoards: [{type: mongoose.Schema.Types.ObjectId, ref: 'Board'}],
+    passwordId: {type: mongoose.Schema.Types.ObjectId, ref: "UserPassword"},
 });
 
 const User = mongoose.model('User', UserSchema);

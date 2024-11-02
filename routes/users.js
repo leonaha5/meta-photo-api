@@ -1,5 +1,7 @@
 const express = require('express');
 const User = require('../models/User');
+const UserPassword = require('../models/UserPassword');
+
 
 const router = express.Router();
 
@@ -27,42 +29,6 @@ async function getUser(req, res, next) {
  */
 router.get('/:id', getUser, (req, res) => {
     res.json(res.user)
-})
-
-
-/**
- * @swagger
- * /users:
- *   get:
- *     summary: Get all users
- */
-router.get('/', async (req, res) => {
-    try {
-        const users = await User.find()
-        res.json(users)
-    } catch (err) {
-        res.status(500).json({message: err.message})
-    }
-})
-
-
-/**
- * @swagger
- * /users:
- *   post:
- *     summary: Create a new user
- */
-router.post('/', async (req, res) => {
-    const user = new User({
-        name: req.body.name,
-        joinedBoards: req.body.joinedBoards,
-    })
-    try {
-        const newUser = await user.save()
-        res.status(201).json(newUser)
-    } catch (err) {
-        res.status(400).json({message: err.message})
-    }
 })
 
 
@@ -96,6 +62,8 @@ router.patch('/:id', getUser, async (req, res) => {
  */
 router.delete('/:id', getUser, async (req, res) => {
     try {
+        const user = await User.findOne({_id: req.params.id});
+        await UserPassword.deleteOne({_id: user.passwordId});
         await User.deleteOne({_id: req.params.id});
         res.json({message: 'User Deleted Successfully'})
     } catch (err) {

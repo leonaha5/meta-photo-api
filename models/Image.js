@@ -34,8 +34,8 @@ const ImageSchema = new mongoose.Schema({
     mimetype: {type: String, required: true},
     createdAt: {type: Date, default: Date.now},
     metadata: {type: Object},
-    uploadedBy: {type: String, required: true},
-    belongsTo: {type: String, required: true},
+    uploadedBy: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+    belongsTo: {type: mongoose.Schema.Types.ObjectId, ref: 'Board'},
 });
 
 
