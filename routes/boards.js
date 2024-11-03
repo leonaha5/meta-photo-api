@@ -45,6 +45,27 @@ router.get('/', async (req, res) => {
     }
 })
 
+/**
+ * @swagger
+ * /boards/user/{id}:
+ *   get:
+ *     summary: Get boards by user id
+ */
+router.get('/user/:userId', async (req, res) => {
+    try {
+        const userId = req.params.userId;
+        const boards = await Board.find({owner: userId}, undefined, undefined);
+
+        if (boards.length === 0) {
+            return res.status(404).json({message: 'No images found for this user.'});
+        }
+
+        res.status(200).json(boards);
+    } catch (err) {
+        res.status(500).json({message: err.message});
+    }
+});
+
 
 /**
  * @swagger

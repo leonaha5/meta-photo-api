@@ -22,17 +22,19 @@ async function getImage(req, res, next) {
     next()
 }
 
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'images/');
-    },
-    filename: (req, file, cb) => {
-        const originalExt = path.extname(file.originalname);
-        cb(null, Date.now().toString() + originalExt);
-    }
+const upload = multer({
+    storage: multer.diskStorage({
+        destination: (req, file, cb) => {
+            cb(null, 'images/');
+        },
+        filename: (req, file, cb) => {
+            const originalExt = path.extname(file.originalname);
+            cb(null, Date.now().toString() + originalExt);
+        }
+    }),
+    // Set limits here
+    limits: {fileSize: 1000000} // 1 MB in bytes
 });
-
-const upload = multer({storage});
 
 
 /**
