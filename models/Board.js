@@ -28,8 +28,9 @@ const mongoose = require('mongoose');
  *           description: The ID of the owner of the board
  */
 const BoardSchema = new mongoose.Schema({
-    name: {type: String, required: true},
-    owner: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+  name: {type: String, required: true},
+  owner: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+  coverImage: {type: String, required: false, default: ''},
 });
 
 const Board = mongoose.model('Board', BoardSchema);

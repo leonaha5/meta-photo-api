@@ -76,9 +76,8 @@ router.get('/user/:userId', async (req, res) => {
 router.post('/', async (req, res) => {
     const board = new Board({
         name: req.body.name,
-        boardImageIDs: [],
-        userIDs: [],
         owner: req.body.owner,
+        coverImage: req.body.coverImage,
     })
     try {
         const newUser = await board.save()
@@ -101,6 +100,9 @@ router.patch('/:id', getBoard, async (req, res) => {
     }
     if (req.body.owner != null) {
         res.board.owner = req.body.owner
+    }
+    if (req.body.coverImage != null) {
+        res.board.coverImage = req.body.coverImage
     }
     try {
         const updatedBoard = await res.board.save()

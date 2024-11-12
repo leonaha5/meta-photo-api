@@ -55,15 +55,21 @@ router.post('/', upload.array('images', 10), async (req, res) => {
         for (const file of req.files) {
             const imagePath = path.join(__dirname, '../', file.path);
             const buffer = fs.readFileSync(imagePath);
+            var metadata
+            try {
+                const parser = exifParser.create(buffer);
+                const result = parser.parse();
+                metadata = result.tags;
+            } catch (err) {
+                metadata = {}
+            }
 
-            const parser = exifParser.create(buffer);
-            const result = parser.parse();
 
             const image = new Image({
                 filename: file.filename,
                 path: file.path,
                 mimetype: file.mimetype,
-                metadata: result.tags,
+                metadata: metadata,
                 uploadedBy: req.body.uploadedBy,
                 belongsTo: req.body.belongsTo
             });
