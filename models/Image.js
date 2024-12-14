@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose';
 
 /**
  * @swagger
@@ -38,6 +38,6 @@ const ImageSchema = new mongoose.Schema({
     belongsTo: {type: mongoose.Schema.Types.ObjectId, ref: 'Board'},
 });
 
-
 const Image = mongoose.model('Image', ImageSchema);
-module.exports = Image;
+
+export default Image;

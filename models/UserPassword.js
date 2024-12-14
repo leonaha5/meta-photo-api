@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose'
 
 /**
  * @swagger
@@ -11,4 +11,4 @@ const UserPasswordSchema = new mongoose.Schema({
 });
 
 const UserPassword = mongoose.model('UserPassword', UserPasswordSchema);
-module.exports = UserPassword;
+export default UserPassword;

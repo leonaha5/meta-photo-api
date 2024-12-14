@@ -1,7 +1,5 @@
-// swagger.js
-
-const swaggerJSDoc = require('swagger-jsdoc');
-const swaggerUi = require('swagger-ui-express');
+import swaggerJSDoc from 'swagger-jsdoc';
+import swaggerUi from 'swagger-ui-express';
 
 const swaggerDefinition = {
     openapi: '3.0.0',
@@ -12,7 +10,7 @@ const swaggerDefinition = {
     },
     servers: [
         {
-            url: 'http://localhost:4000', // Your local server URL
+            url: 'http://localhost:4000',
             description: 'Local server',
         },
     ],
@@ -20,11 +18,9 @@ const swaggerDefinition = {
 
 const options = {
     swaggerDefinition,
-    // Path to the API docs
-    apis: ['./routes/*.js', './models/*.js'], // Adjust the path to your routes and models
+    apis: ['./routes/*.js', './models/*.js'],
 };
-
 
 const swaggerSpec = swaggerJSDoc(options);
 
-module.exports = {swaggerUi, swaggerSpec};
+export {swaggerUi, swaggerSpec};

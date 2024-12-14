@@ -1,15 +1,14 @@
-require('dotenv').config();
+import express from 'express'
+import jwt from 'jsonwebtoken'
+import User from '../models/User.js'
+import UserPassword from '../models/UserPassword.js'
+import loginController from "../controllers/loginController.js";
 
-const express = require('express');
-const User = require('../models/User');
-const UserPassword = require('../models/UserPassword');
-const jwt = require('jsonwebtoken')
-
-const router = express.Router();
+const loginRoutes = express.Router();
 
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
 
-router.post('/register', async (req, res) => {
+loginRoutes.post('/register', async (req, res) => {
 
     const userPassword = new UserPassword({
         password: req.body.password
@@ -31,23 +30,6 @@ router.post('/register', async (req, res) => {
     }
 })
 
-router.post('/login', async (req, res) => {
-    const email = req.body.email
-    const password = req.body.password
+loginRoutes.post('/login', loginController.login)
 
-
-    const user = await User.findOne({email: email}, undefined, undefined)
-    console.log(user)
-    console.log('aaa')
-    const userPassword = await UserPassword.findOne({_id: user.passwordId}, undefined, undefined)
-
-    if (userPassword && userPassword.password === password) {
-        const token = jwt.sign(user._doc, ACCESS_TOKEN_SECRET, {expiresIn: '1d'})
-        res.json({token: token})
-    } else {
-        res.status(400).json({message: 'Invalid Credentials'})
-    }
-
-})
-
-module.exports = router;
+export default loginRoutes;
